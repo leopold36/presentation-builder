@@ -50,9 +50,9 @@ class MainApp {
       }
     });
 
-    ipcMain.handle('projects:create', async (_, name, description) => {
+    ipcMain.handle('projects:create', async (_, name, type, description) => {
       try {
-        return database.createProject(name, description);
+        return database.createProject(name, type, description);
       } catch (error) {
         console.error('Failed to create project:', error);
         throw error;
@@ -64,6 +64,42 @@ class MainApp {
         return database.getProject(id);
       } catch (error) {
         console.error('Failed to get project:', error);
+        throw error;
+      }
+    });
+
+    ipcMain.handle('db:getTables', async () => {
+      try {
+        return database.getTables();
+      } catch (error) {
+        console.error('Failed to get tables:', error);
+        throw error;
+      }
+    });
+
+    ipcMain.handle('db:getTableData', async (_, tableName) => {
+      try {
+        return database.getTableData(tableName);
+      } catch (error) {
+        console.error('Failed to get table data:', error);
+        throw error;
+      }
+    });
+
+    ipcMain.handle('db:getTableSchema', async (_, tableName) => {
+      try {
+        return database.getTableSchema(tableName);
+      } catch (error) {
+        console.error('Failed to get table schema:', error);
+        throw error;
+      }
+    });
+
+    ipcMain.handle('db:getTableStats', async (_, tableName) => {
+      try {
+        return database.getTableStats(tableName);
+      } catch (error) {
+        console.error('Failed to get table stats:', error);
         throw error;
       }
     });
